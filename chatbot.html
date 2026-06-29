@@ -74,6 +74,11 @@
         overflow: scroll;
         scrollbar-width: none;
       }
+
+      .welcome-message {
+        text-align: center;
+        color: rgb(120, 120, 120);
+      }
     </style>
   </head>
   <body>
@@ -87,6 +92,19 @@
 
     <script src="https://unpkg.com/supersimpledev/babel.js"></script>
     <script type="text/babel">
+
+      function useAutoScroll(dependencies) {
+        const chatMessagesRef = React.useRef(null);
+
+        React.useEffect(() => {
+          const containerElem = chatMessagesRef.current;
+          if (containerElem){
+            containerElem.scrollTop = containerElem.scrollHeight;
+          }
+        }, dependencies);
+
+        return chatMessagesRef;
+      }
 
       function ChatInput({chatMessages, setChatMessages}) {
         const [inputText, setInputText] = React.useState('');
@@ -182,6 +200,7 @@
           );
         }
         */
+        
 
         return (
           <div className={
@@ -205,21 +224,14 @@
       }
 
       function ChatMessages({chatMessages}) {
-        const chatMessagesRef = React.useRef(null);
-
-        React.useEffect(() => {
-          const containerElem = chatMessagesRef.current;
-          if (containerElem){
-            containerElem.scrollTop = containerElem.scrollHeight;
-          }
-        }, [chatMessages]);
+        const chatMessagesRef = useAutoScroll([chatMessages]);
 
         return (
           <div 
             className="chat-messages-container"
             ref={chatMessagesRef}
           >
-            {chatMessages.length === 0 && <p>Welcome to the chatbot project! Send a message using the textbox below.</p>}
+            {chatMessages.length === 0 && <p className="welcome-message">Welcome to the chatbot project! Send a message using the textbox below.</p>}
             {chatMessages.length > 0 && chatMessages.map((chatMessage) => {
               return (
                 <ChatMessage 
@@ -242,7 +254,9 @@
 
 
         return (
-          <div className="app-container">
+          <div
+            className="app-container"
+           >
             <ChatMessages
               chatMessages={chatMessages}
             />
