@@ -1,27 +1,12 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState } from 'react'
 import { ChatInput } from './components/ChatInput';
 import { ChatMessages } from './components/ChatMessages';
 
 import './App.css'
 
-export function useAutoScroll(dependencies) {
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    const containerElem = containerRef.current;
-    if (containerElem){
-      containerElem.scrollTop = containerElem.scrollHeight;
-    }
-  }, dependencies);
-
-  return containerRef;
-}
-
       
 
-      
-
-function App() {
+function Ap() {
         const [chatMessages, setChatMessages] = useState([]);
         // const [chatMessages, setChatMessages] = array;
         // const chatMessages = array[0];
